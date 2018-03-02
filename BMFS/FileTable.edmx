@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="bmfsModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="files">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="PrimaryInvestigatorID" />
+            <PropertyRef Name="FileUniqueID" />
+          </Key>
+          <Property Name="Year" Type="utinyint" Nullable="false" />
+          <Property Name="PrimaryInvestigatorID" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="FileUniqueID" Type="int" Nullable="false" />
+          <Property Name="FileID" Type="int" />
+          <Property Name="FileShortDescription" Type="varchar" MaxLength="250" />
+          <Property Name="FileDescription" Type="text" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="primaryinvestigatoryear">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="PrimaryInvestigatorID" />
+          </Key>
+          <Property Name="Year" Type="utinyint" Nullable="false" />
+          <Property Name="PrimaryInvestigatorID" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="uploadedfiles">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="text" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="250" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Files_PrimaryInvestigatorYear">
+          <End Role="primaryinvestigatoryear" Type="Self.primaryinvestigatoryear" Multiplicity="1" />
+          <End Role="files" Type="Self.files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="primaryinvestigatoryear">
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Principal>
+            <Dependent Role="files">
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_UploadedFiles">
+          <End Role="uploadedfiles" Type="Self.uploadedfiles" Multiplicity="0..1" />
+          <End Role="files" Type="Self.files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uploadedfiles">
+              <PropertyRef Name="FileID" />
+            </Principal>
+            <Dependent Role="files">
+              <PropertyRef Name="FileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrimaryInvestigatorYear_Users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="primaryinvestigatoryear" Type="Self.primaryinvestigatoryear" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="primaryinvestigatoryear">
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bmfsModelStoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="files" EntityType="Self.files" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="primaryinvestigatoryear" EntityType="Self.primaryinvestigatoryear" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="uploadedfiles" EntityType="Self.uploadedfiles" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="bmfs" store:Type="Tables" />
+          <AssociationSet Name="FK_Files_PrimaryInvestigatorYear" Association="Self.FK_Files_PrimaryInvestigatorYear">
+            <End Role="primaryinvestigatoryear" EntitySet="primaryinvestigatoryear" />
+            <End Role="files" EntitySet="files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_UploadedFiles" Association="Self.FK_Files_UploadedFiles">
+            <End Role="uploadedfiles" EntitySet="uploadedfiles" />
+            <End Role="files" EntitySet="files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrimaryInvestigatorYear_Users" Association="Self.FK_PrimaryInvestigatorYear_Users">
+            <End Role="users" EntitySet="users" />
+            <End Role="primaryinvestigatoryear" EntitySet="primaryinvestigatoryear" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bmfsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="file">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="PrimaryInvestigatorID" />
+            <PropertyRef Name="FileUniqueID" />
+          </Key>
+          <Property Name="Year" Type="Byte" Nullable="false" />
+          <Property Name="PrimaryInvestigatorID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FileUniqueID" Type="Int32" Nullable="false" />
+          <Property Name="FileID" Type="Int32" />
+          <Property Name="FileShortDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FileDescription" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="primaryinvestigatoryear" Relationship="Self.FK_Files_PrimaryInvestigatorYear" FromRole="files" ToRole="primaryinvestigatoryear" />
+          <NavigationProperty Name="uploadedfile" Relationship="Self.FK_Files_UploadedFiles" FromRole="files" ToRole="uploadedfiles" />
+        </EntityType>
+        <EntityType Name="primaryinvestigatoryear">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="PrimaryInvestigatorID" />
+          </Key>
+          <Property Name="Year" Type="Byte" Nullable="false" />
+          <Property Name="PrimaryInvestigatorID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="files" Relationship="Self.FK_Files_PrimaryInvestigatorYear" FromRole="primaryinvestigatoryear" ToRole="files" />
+          <NavigationProperty Name="user" Relationship="Self.FK_PrimaryInvestigatorYear_Users" FromRole="primaryinvestigatoryear" ToRole="users" />
+        </EntityType>
+        <EntityType Name="uploadedfile">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="files" Relationship="Self.FK_Files_UploadedFiles" FromRole="uploadedfiles" ToRole="files" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="primaryinvestigatoryears" Relationship="Self.FK_PrimaryInvestigatorYear_Users" FromRole="users" ToRole="primaryinvestigatoryear" />
+        </EntityType>
+        <Association Name="FK_Files_PrimaryInvestigatorYear">
+          <End Role="primaryinvestigatoryear" Type="Self.primaryinvestigatoryear" Multiplicity="1" />
+          <End Role="files" Type="Self.file" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="primaryinvestigatoryear">
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Principal>
+            <Dependent Role="files">
+              <PropertyRef Name="Year" />
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Files_UploadedFiles">
+          <End Role="uploadedfiles" Type="Self.uploadedfile" Multiplicity="0..1" />
+          <End Role="files" Type="Self.file" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="uploadedfiles">
+              <PropertyRef Name="FileID" />
+            </Principal>
+            <Dependent Role="files">
+              <PropertyRef Name="FileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PrimaryInvestigatorYear_Users">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="primaryinvestigatoryear" Type="Self.primaryinvestigatoryear" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserName" />
+            </Principal>
+            <Dependent Role="primaryinvestigatoryear">
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bmfsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="admins" EntityType="Self.admin" />
+          <EntitySet Name="files" EntityType="Self.file" />
+          <EntitySet Name="primaryinvestigatoryears" EntityType="Self.primaryinvestigatoryear" />
+          <EntitySet Name="uploadedfiles" EntityType="Self.uploadedfile" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_Files_PrimaryInvestigatorYear" Association="Self.FK_Files_PrimaryInvestigatorYear">
+            <End Role="primaryinvestigatoryear" EntitySet="primaryinvestigatoryears" />
+            <End Role="files" EntitySet="files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Files_UploadedFiles" Association="Self.FK_Files_UploadedFiles">
+            <End Role="uploadedfiles" EntitySet="uploadedfiles" />
+            <End Role="files" EntitySet="files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PrimaryInvestigatorYear_Users" Association="Self.FK_PrimaryInvestigatorYear_Users">
+            <End Role="users" EntitySet="users" />
+            <End Role="primaryinvestigatoryear" EntitySet="primaryinvestigatoryears" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bmfsModelStoreContainer" CdmEntityContainer="bmfsEntities">
+          <EntitySetMapping Name="admins">
+            <EntityTypeMapping TypeName="bmfsModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="files">
+            <EntityTypeMapping TypeName="bmfsModel.file">
+              <MappingFragment StoreEntitySet="files">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PrimaryInvestigatorID" ColumnName="PrimaryInvestigatorID" />
+                <ScalarProperty Name="FileUniqueID" ColumnName="FileUniqueID" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="FileShortDescription" ColumnName="FileShortDescription" />
+                <ScalarProperty Name="FileDescription" ColumnName="FileDescription" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="primaryinvestigatoryears">
+            <EntityTypeMapping TypeName="bmfsModel.primaryinvestigatoryear">
+              <MappingFragment StoreEntitySet="primaryinvestigatoryear">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PrimaryInvestigatorID" ColumnName="PrimaryInvestigatorID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uploadedfiles">
+            <EntityTypeMapping TypeName="bmfsModel.uploadedfile">
+              <MappingFragment StoreEntitySet="uploadedfiles">
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="bmfsModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
