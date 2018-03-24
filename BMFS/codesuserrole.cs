@@ -12,20 +12,18 @@ namespace BMFS
     using System;
     using System.Collections.Generic;
     
-    public partial class uploadedfile
+    public partial class codesuserrole
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public uploadedfile()
+        public codesuserrole()
         {
-            this.files = new HashSet<file>();
+            this.users = new HashSet<user>();
         }
     
-        public int FileID { get; set; }
-        public string FileName { get; set; }
-        public string CreatedBy { get; set; }
-        public System.DateTime CreatedAt { get; set; }
+        public int UserRoleCode { get; set; }
+        public string UserRoleName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<file> files { get; set; }
+        public virtual ICollection<user> users { get; set; }
     }
 }

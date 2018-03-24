@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="bmfsModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="codesuserrole">
+          <Key>
+            <PropertyRef Name="UserRoleCode" />
+          </Key>
+          <Property Name="UserRoleCode" Type="usmallint" Nullable="false" />
+          <Property Name="UserRoleName" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="files">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="PrimaryInvestigatorID" Type="int" Nullable="false" />
+          <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileShortDescription" Type="varchar" MaxLength="250" />
+          <Property Name="FileDescription" Type="text" />
+          <Property Name="FileName" Type="varchar" MaxLength="50" />
+          <Property Name="FileData" Type="longblob" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="primaryinvestigatoryear">
+          <Key>
+            <PropertyRef Name="PrimaryInvestigatorID" />
+          </Key>
+          <Property Name="Year" Type="usmallint" Nullable="false" />
+          <Property Name="PrimaryInvestigatorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="40" />
+          <Property Name="FirstName" Type="varchar" MaxLength="40" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="40" />
+          <Property Name="LastName" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="250" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Role" Type="usmallint" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Files_PrimaryInvestigatorYear">
+          <End Role="primaryinvestigatoryear" Type="Self.primaryinvestigatoryear" Multiplicity="1" />
+          <End Role="files" Type="Self.files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="primaryinvestigatoryear">
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Principal>
+            <Dependent Role="files">
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_CodesUserRole">
+          <End Role="codesuserrole" Type="Self.codesuserrole" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="codesuserrole">
+              <PropertyRef Name="UserRoleCode" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bmfsModelStoreContainer">
+          <EntitySet Name="codesuserrole" EntityType="Self.codesuserrole" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="files" EntityType="Self.files" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="primaryinvestigatoryear" EntityType="Self.primaryinvestigatoryear" Schema="bmfs" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="bmfs" store:Type="Tables" />
+          <AssociationSet Name="FK_Files_PrimaryInvestigatorYear" Association="Self.FK_Files_PrimaryInvestigatorYear">
+            <End Role="primaryinvestigatoryear" EntitySet="primaryinvestigatoryear" />
+            <End Role="files" EntitySet="files" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_CodesUserRole" Association="Self.FK_Users_CodesUserRole">
+            <End Role="codesuserrole" EntitySet="codesuserrole" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bmfsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="bmfsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="codesuserroles" EntityType="bmfsModel.codesuserrole" />
+          <EntitySet Name="primaryinvestigatoryears" EntityType="bmfsModel.primaryinvestigatoryear" />
+          <EntitySet Name="users" EntityType="bmfsModel.user" />
+          <AssociationSet Name="FK_Users_CodesUserRole" Association="bmfsModel.FK_Users_CodesUserRole">
+            <End Role="codesuserrole" EntitySet="codesuserroles" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
+          <EntitySet Name="files" EntityType="bmfsModel.file" />
+          <AssociationSet Name="FK_Files_PrimaryInvestigatorYear" Association="bmfsModel.FK_Files_PrimaryInvestigatorYear">
+            <End Role="primaryinvestigatoryear" EntitySet="primaryinvestigatoryears" />
+            <End Role="file" EntitySet="files" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="codesuserrole">
+          <Key>
+            <PropertyRef Name="UserRoleCode" />
+          </Key>
+          <Property Name="UserRoleCode" Type="Int32" Nullable="false" />
+          <Property Name="UserRoleName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="bmfsModel.FK_Users_CodesUserRole" FromRole="codesuserrole" ToRole="user" />
+        </EntityType>
+        <EntityType Name="primaryinvestigatoryear">
+          <Key>
+            <PropertyRef Name="PrimaryInvestigatorID" />
+          </Key>
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="PrimaryInvestigatorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="files" Relationship="bmfsModel.FK_Files_PrimaryInvestigatorYear" FromRole="primaryinvestigatoryear" ToRole="file" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="codesuserrole" Relationship="bmfsModel.FK_Users_CodesUserRole" FromRole="user" ToRole="codesuserrole" />
+        </EntityType>
+        <Association Name="FK_Users_CodesUserRole">
+          <End Type="bmfsModel.codesuserrole" Role="codesuserrole" Multiplicity="0..1" />
+          <End Type="bmfsModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="codesuserrole">
+              <PropertyRef Name="UserRoleCode" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="file">
+          <Key>
+            <PropertyRef Name="FileID" />
+          </Key>
+          <Property Name="PrimaryInvestigatorID" Type="Int32" Nullable="false" />
+          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileShortDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FileDescription" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FileData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="primaryinvestigatoryear" Relationship="bmfsModel.FK_Files_PrimaryInvestigatorYear" FromRole="file" ToRole="primaryinvestigatoryear" />
+        </EntityType>
+        <Association Name="FK_Files_PrimaryInvestigatorYear">
+          <End Type="bmfsModel.primaryinvestigatoryear" Role="primaryinvestigatoryear" Multiplicity="1" />
+          <End Type="bmfsModel.file" Role="file" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="primaryinvestigatoryear">
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Principal>
+            <Dependent Role="file">
+              <PropertyRef Name="PrimaryInvestigatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bmfsModelStoreContainer" CdmEntityContainer="bmfsEntities">
+          <EntitySetMapping Name="codesuserroles">
+            <EntityTypeMapping TypeName="bmfsModel.codesuserrole">
+              <MappingFragment StoreEntitySet="codesuserrole">
+                <ScalarProperty Name="UserRoleName" ColumnName="UserRoleName" />
+                <ScalarProperty Name="UserRoleCode" ColumnName="UserRoleCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="primaryinvestigatoryears">
+            <EntityTypeMapping TypeName="bmfsModel.primaryinvestigatoryear">
+              <MappingFragment StoreEntitySet="primaryinvestigatoryear">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="PrimaryInvestigatorID" ColumnName="PrimaryInvestigatorID" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="bmfsModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="files">
+            <EntityTypeMapping TypeName="bmfsModel.file">
+              <MappingFragment StoreEntitySet="files">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="FileData" ColumnName="FileData" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileDescription" ColumnName="FileDescription" />
+                <ScalarProperty Name="FileShortDescription" ColumnName="FileShortDescription" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="PrimaryInvestigatorID" ColumnName="PrimaryInvestigatorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

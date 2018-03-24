@@ -20,16 +20,19 @@ namespace BMFS
             this.files = new HashSet<file>();
         }
     
-        public byte Year { get; set; }
-        public string PrimaryInvestigatorID { get; set; }
+        public int Year { get; set; }
+        public int PrimaryInvestigatorID { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
         public string UpdatedBy { get; set; }
         public System.DateTime LastUpdated { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedAt { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<file> files { get; set; }
-        public virtual user user { get; set; }
     }
 }

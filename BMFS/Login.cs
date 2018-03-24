@@ -20,11 +20,25 @@ namespace BMFS
 
         private void Sign_Click(object sender, EventArgs e)
         {
-            if(LoginTxtBox.Text == "vivek" && PwdTxtBox.Text == "vivek")
-            {   
-                FileTable fileTable = new FileTable();
-                fileTable.Show();
-                this.Hide();
+            using (var DBContext = new bmfsEntities())
+            {
+                if (DBContext.users.Where(u => u.UserName == LoginTxtBox.Text && u.Password == PwdTxtBox.Text).Count() > 0)
+                {
+                    LoggedInUser.UserName = LoginTxtBox.Text;
+                    this.Hide();
+                    FileTable fileTable = new FileTable();
+                    fileTable.Show();
+                } else
+                {
+                    string message = "Please Check the Username/Password";
+                    string caption = "Login Error";
+                    MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                    DialogResult result;
+
+                    // Displays the MessageBox.
+
+                    result = MessageBox.Show(message, caption, buttons);
+                }
                 
             }
         }

@@ -41,13 +41,21 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.11\Assemblies\v4.5\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data.Entity.EF5, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.11\Assemblies\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Data.Entity.EF5.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel" />
@@ -97,16 +105,44 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="admin.cs">
-      <DependentUpon>FileTable.tt</DependentUpon>
+    <Compile Include="Addfiles.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="file.cs">
-      <DependentUpon>FileTable.tt</DependentUpon>
+    <Compile Include="Addfiles.Designer.cs">
+      <DependentUpon>Addfiles.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileTable.Context.cs">
+    <Compile Include="AddPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddPI.Designer.cs">
+      <DependentUpon>AddPI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddUser.Designer.cs">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BMFSDataBase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FileTable.Context.tt</DependentUpon>
+      <DependentUpon>BMFSDataBase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BMFSDataBase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BMFSDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BMFSDataBase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BMFSDataBase.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="codesuserrole.cs">
+      <DependentUpon>BMFSDataBase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="file.cs">
+      <DependentUpon>BMFSDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="FileTable.cs">
       <SubType>Form</SubType>
@@ -114,33 +150,31 @@
     <Compile Include="FileTable.Designer.cs">
       <DependentUpon>FileTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileTable1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTable.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FileTable1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileTable.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="LoggedInUser.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObservableListSource.cs" />
     <Compile Include="primaryinvestigatoryear.cs">
-      <DependentUpon>FileTable.tt</DependentUpon>
+      <DependentUpon>BMFSDataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="uploadedfile.cs">
-      <DependentUpon>FileTable.tt</DependentUpon>
-    </Compile>
     <Compile Include="user.cs">
-      <DependentUpon>FileTable.tt</DependentUpon>
+      <DependentUpon>BMFSDataBase.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Addfiles.resx">
+      <DependentUpon>Addfiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddPI.resx">
+      <DependentUpon>AddPI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddUser.resx">
+      <DependentUpon>AddUser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FileTable.resx">
       <DependentUpon>FileTable.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,12 +190,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EntityDeploy Include="FileTable.edmx">
+    <EntityDeploy Include="BMFSDataBase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FileTable1.Designer.cs</LastGenOutput>
+      <LastGenOutput>BMFSDataBase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="FileTable.edmx.diagram">
-      <DependentUpon>FileTable.edmx</DependentUpon>
+    <None Include="BMFSDataBase.edmx.diagram">
+      <DependentUpon>BMFSDataBase.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -179,21 +213,26 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="FileTable.Context.tt">
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BMFSDataBase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FileTable.edmx</DependentUpon>
-      <LastGenOutput>FileTable.Context.cs</LastGenOutput>
+      <DependentUpon>BMFSDataBase.edmx</DependentUpon>
+      <LastGenOutput>BMFSDataBase.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="FileTable.tt">
+    <Content Include="BMFSDataBase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FileTable.edmx</DependentUpon>
-      <LastGenOutput>FileTable1.cs</LastGenOutput>
+      <DependentUpon>BMFSDataBase.edmx</DependentUpon>
+      <LastGenOutput>BMFSDataBase.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Folder Include="model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

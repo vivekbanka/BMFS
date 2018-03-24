@@ -14,18 +14,17 @@ namespace BMFS
     
     public partial class file
     {
-        public byte Year { get; set; }
-        public string PrimaryInvestigatorID { get; set; }
-        public int FileUniqueID { get; set; }
-        public Nullable<int> FileID { get; set; }
+        public int PrimaryInvestigatorID { get; set; }
+        public int FileID { get; set; }
         public string FileShortDescription { get; set; }
         public string FileDescription { get; set; }
+        public string FileName { get; set; }
+        public byte[] FileData { get; set; }
         public string UpdatedBy { get; set; }
         public System.DateTime LastUpdated { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedAt { get; set; }
     
         public virtual primaryinvestigatoryear primaryinvestigatoryear { get; set; }
-        public virtual uploadedfile uploadedfile { get; set; }
     }
 }

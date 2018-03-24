@@ -25,10 +25,9 @@ namespace BMFS
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<admin> admins { get; set; }
-        public virtual DbSet<file> files { get; set; }
+        public virtual DbSet<codesuserrole> codesuserroles { get; set; }
         public virtual DbSet<primaryinvestigatoryear> primaryinvestigatoryears { get; set; }
-        public virtual DbSet<uploadedfile> uploadedfiles { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<file> files { get; set; }
     }
 }

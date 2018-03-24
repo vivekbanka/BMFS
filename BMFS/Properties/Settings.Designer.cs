@@ -32,5 +32,26 @@ namespace BMFS.Properties {
                 return ((string)(this["bmfsConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=DESKTOP-UVCHU2H;user id=vivekr;password=MySql2018;persistsecurityinfo=True" +
+            ";database=bmfs")]
+        public string bmfsConnectionString1 {
+            get {
+                return ((string)(this["bmfsConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("server=DESKTOP-0C34PAN;user id=vivekr;password=MySql2018;database=bmfs")]
+        public string bmfsConnectionString2 {
+            get {
+                return ((string)(this["bmfsConnectionString2"]));
+            }
+        }
     }
 }
